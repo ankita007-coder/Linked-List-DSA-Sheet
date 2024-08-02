@@ -1,0 +1,44 @@
+#two pointer approach
+
+class Solution:
+    def findPairsWithGivenSum(self, target : int, head : Optional['Node']) -> List[List[int]]:
+        # code here
+        res = []
+        curr = head
+        tail = head
+        while tail.next:
+            tail = tail.next
+        
+        while curr!=tail and tail.next!=curr:
+            summ = curr.data+tail.data
+            if summ==target:
+                res.append([curr.data,tail.data])
+                curr = curr.next
+                tail = tail.prev
+            elif summ>target:
+                tail = tail.prev
+            else:
+                curr = curr.next
+        return res
+            
+
+
+#using extra space
+
+class Solution:
+    def findPairsWithGivenSum(self, target : int, head : Optional['Node']) -> List[List[int]]:
+        # code here
+        res = []
+        s = set()
+        curr = head
+        while curr:
+            if target-curr.data not in s:
+                s.add(curr.data)
+            else:
+                res.append([target-curr.data,curr.data])
+                s.remove(target-curr.data)
+            curr = curr.next
+        return res[::-1]
+
+
+
