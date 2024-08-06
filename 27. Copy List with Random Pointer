@@ -1,0 +1,48 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, x, next=None, random=None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
+class Solution(object):
+    def insertCopyNode(self,head):
+        temp = head
+        while temp:
+            nextNode = temp.next
+            copyNode = Node(temp.val)
+            copyNode.next = nextNode
+            temp.next = copyNode
+            temp = nextNode
+
+    def connectRandomPointers(self,head):
+        temp = head
+        while temp and temp.next:
+            copyNode = temp.next
+            if temp.random:
+                copyNode.random = temp.random.next
+            else:
+                copyNode.random = None
+            temp = temp.next.next
+    def getDeepCopy(self,head):
+        temp = head
+        res = dummy = Node(-1)
+        while temp:
+            res.next = temp.next
+            res = res.next
+
+            temp.next = temp.next.next
+            temp = temp.next
+        return dummy.next
+    def copyRandomList(self, head):
+        """
+        :type head: Node
+        :rtype: Node
+        """
+        self.insertCopyNode(head)
+        self.connectRandomPointers(head)
+        return self.getDeepCopy(head)
+
+        
